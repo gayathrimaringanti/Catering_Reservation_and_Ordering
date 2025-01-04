@@ -18,9 +18,9 @@ They can view available catering products, add items to a cart, and place orders
 The system also includes functionality for users to view and manage their orders and update their profiles.
 
 # Technologies Used:
-HTML, CSS, JavaScript for the frontend interface, ensuring a responsive and user-friendly design.
-Firebase for backend functionality, including real-time database integration and secure authentication.
-The project is categorized under the Food domain.
+- HTML, CSS, JavaScript for the frontend interface, ensuring a responsive and user-friendly design.
+- Firebase for backend functionality, including real-time database integration and secure authentication.
+- The project is categorized under the Food domain.
 
 # To get started with this project:
 - Clone the Repository
