@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="images/logo.jpg" alt="Catering Logo" class="rounded-logo" />
+      </div>
+      <nav>
+        
+        <a href="menu.html">Menu</a>
+        <a href="profile.html">Profile</a>
+        <a href="index.html">Login</a>
+        
+      </nav>
+    </header>
+
+    <!-- Profile Section -->
+    <section id="profile">
+      <div class="profile-container">
+        <div class="profile-header">
+          <h2>Your Profile</h2>
+          <button id="edit-profile" class="edit-button">Edit Profile</button>
+        </div>
+
+        <div class="profile-info">
+          <div class="profile-picture">
+            <img
+              src="images/hanry.jpg"
+              alt="Profile Picture"
+              id="profile-pic"
+              class="rounded-profile-pic"
+            />
+          </div>
+
+          <div class="profile-details">
+            <div class="detail-item">
+              <span class="label">Name:</span>
+              <span id="user-name">John Doe</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Email:</span>
+              <span id="user-email">Akshayboga0000@gmail.com</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Phone:</span>
+              <span id="user-phone">+91 1234 567 890</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Profile Form (hidden initially) -->
+        <!-- Edit Profile Form -->
+        <div id="edit-profile-form" class="hidden">
+          <h3>Edit Your Details</h3>
+          <form id="profile-form">
+            <label for="name">Name:</label>
+            <input type="text" id="edit-name" name="name" value="John Doe" />
+
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              id="edit-email"
+              name="email"
+              value="Akshayboga0000@gmail.com"
+            />
+
+            <label for="phone">Phone:</label>
+            <input
+              type="text"
+              id="edit-phone"
+              name="phone"
+              value="+91 1234 567 890"
+            />
+
+            <label for="profile-picture">Profile Picture:</label>
+            <input
+              type="file"
+              id="edit-profile-picture"
+              name="profile-picture"
+              accept="image/*"
+            />
+
+            <button type="submit" class="save-button">Save Changes</button>
+            <button type="button" class="cancel-button" onclick="cancelEdit()">
+              Cancel
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Load existing profile info from localStorage if available
+      window.onload = function () {
+        if (localStorage.getItem("userProfile")) {
+          const userProfile = JSON.parse(localStorage.getItem("userProfile"));
+          document.getElementById("user-name").textContent = userProfile.name;
+          document.getElementById("user-email").textContent = userProfile.email;
+          document.getElementById("user-phone").textContent = userProfile.phone;
+          document.getElementById("edit-name").value = userProfile.name;
+          document.getElementById("edit-email").value = userProfile.email;
+          document.getElementById("edit-phone").value = userProfile.phone;
+
+          // Set the profile picture if available in localStorage
+          if (userProfile.profilePicture) {
+            document.getElementById("profile-pic").src =
+              userProfile.profilePicture;
+          }
+        }
+      };
+
+      // Edit Profile button functionality
+      document
+        .getElementById("edit-profile")
+        .addEventListener("click", function () {
+          document
+            .getElementById("edit-profile-form")
+            .classList.remove("hidden");
+          document.querySelector(".profile-info").classList.add("hidden");
+          document.getElementById("edit-profile").classList.add("hidden");
+        });
+
+      // Handle image upload
+      document
+        .getElementById("edit-profile-picture")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            // Create a FileReader to read the image
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              // Set the image preview
+              document.getElementById("profile-pic").src = e.target.result;
+            };
+            reader.readAsDataURL(file); // Read the file as a Data URL
+          }
+        });
+
+      // Save changes functionality
+      document
+        .getElementById("profile-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Collect updated data from form
+          const name = document.getElementById("edit-name").value;
+          const email = document.getElementById("edit-email").value;
+          const phone = document.getElementById("edit-phone").value;
+
+          // Collect the profile picture (if changed)
+          const profilePicture = document.getElementById("profile-pic").src;
+
+          // Simulate sending the data to the server
+          const updatedProfile = { name, email, phone, profilePicture };
+          console.log("Profile updated:", updatedProfile); // Simulate API call
+
+          // Save data in localStorage (this would be a backend API call in a real-world app)
+          localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+
+          // Update the displayed profile information
+          document.getElementById("user-name").textContent = name;
+          document.getElementById("user-email").textContent = email;
+          document.getElementById("user-phone").textContent = phone;
+
+          // Update the profile picture
+          document.getElementById("profile-pic").src = profilePicture;
+
+          // Hide the form and show updated profile info
+          document.getElementById("edit-profile-form").classList.add("hidden");
+          document.querySelector(".profile-info").classList.remove("hidden");
+          document.getElementById("edit-profile").classList.remove("hidden");
+        });
+
+      // Cancel edit functionality
+      function cancelEdit() {
+        document.getElementById("edit-profile-form").classList.add("hidden");
+        document.querySelector(".profile-info").classList.remove("hidden");
+        document.getElementById("edit-profile").classList.remove("hidden");
+      }
+    </script>
+  </body>
+</html>
